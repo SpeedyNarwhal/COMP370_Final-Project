@@ -1,0 +1,195 @@
+%File: submission.tex
+\documentclass[letterpaper]{article} % DO NOT CHANGE THIS
+\usepackage{aaai24}  % DO NOT CHANGE THIS
+\usepackage{times}  % DO NOT CHANGE THIS
+\usepackage{helvet}  % DO NOT CHANGE THIS
+\usepackage{courier}  % DO NOT CHANGE THIS
+\usepackage[hyphens]{url}  % DO NOT CHANGE THIS
+\usepackage{graphicx} % DO NOT CHANGE THIS
+\urlstyle{rm} % DO NOT CHANGE THIS
+\def\UrlFont{\rm}  % DO NOT CHANGE THIS
+\usepackage{natbib}  % DO NOT CHANGE THIS
+\usepackage{caption} % DO NOT CHANGE THIS
+\frenchspacing  % DO NOT CHANGE THIS
+\setlength{\pdfpagewidth}{8.5in}  % DO NOT CHANGE THIS
+\setlength{\pdfpageheight}{11in}  % DO NOT CHANGE THIS
+
+% PDF Info Setup
+\pdfinfo{
+/TemplateVersion (2024.1)
+}
+
+\setcounter{secnumdepth}{2} 
+
+\title{Game of Thrones Side-Character Dialogue Analysis (Group 62)}
+
+\author{
+    %Authors
+    Nicholas Milin (261106314),
+    Laurier Lefebvre (261143550),
+    Yuzhe Wang (261150086)
+}
+\affiliations{
+    McGill University\\
+    nicholas.milin@mail.mcgill.ca, laurier.lefebvre@mail.mcgill.ca, yuzhe.wang@mail.mcgill.ca
+}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+In this report, we analyze three secondary characters from the series \textit{Game of Thrones} and examine their narrative roles and the evolution of these characters in relation to the topics they discuss. We analyzed the transcripts from all eight seasons, focusing on Petyr Baelish, Samwell Tarly and Theon Greyjoy. For each character, we manually annotated each line, classifying their discussions into eight main categories: Information/Lore, Loyalty/Honour, Orders/Demands, People, Plans/Strategy/Advice, Politics, Trivial, War/Violence. This classification revealed that dialogue is dominated by world-building and planning, not action. Globally, Information/Lore is the largest category, followed by Plans/Strategy/Advice and People. War/Violence and Politics are among the smallest categories.
+\end{abstract}
+
+\section{Introduction}
+
+Our analysis suggests that, for these three characters, the show primarily uses dialogue for exposition, relationship development, and planning, rather than for depicting violence or overt political debate. Secondly, each character has a clear “functional role” in the discourse. Take Samwell Tarly as an example, he frequently speaks about Information/Lore and Trivial matters. His top TF-IDF terms (“wall”, “night”, “citadel”, “dragonglass”, “ice”) illustrate his role as a lore-keeper who explains the White Walker threat and the institutional world of the Night’s Watch and the Citadel. Simultaneously, his trivial talk (e.g. “library”, “walks”, “work”) grounds scenes in everyday life. Petyr Baelish and Theon Greyjoy, also display similarly distinct linguistic patterns that define their specific archetypes within the narrative.
+
+\section{Data}
+
+\subsection{Data Acquisition and Description}
+
+We acquired the dataset from Kaggle, comprising the entire chronological transcript for all eight seasons of \textit{Game of Thrones}. We selected the dataset for its organized structure and complete data, which provide clear separation between speakers and dialogues, thereby eliminating the need to remove scene descriptions from screenplays manually. The corpus contains 23{,}911 entries. Each entry includes the release date, season number, episode number, episode title, character and dialogue.
+
+\subsection{Character Selection}
+
+To ensure we collected side characters with more than 300 non-trivial lines of dialogue, we grouped and organized characters by number of lines spoken. We then chose from characters within the 400--600 lines of dialogue range to ensure we selected secondary characters while still having a sufficient amount of non-trivial lines. We selected three characters who appear across multiple seasons to examine their importance and development throughout the series:
+\begin{itemize}
+    \item Petyr Baelish (449 lines): \cite{baelish_wiki} A deceitful opportunist, coordinating chaos within the crown to fuel his desire for power and ultimate goal of sitting on the Iron Throne.
+    \item Samwell Tarly (556 lines): \cite{tarly_wiki} A cowardly yet highly intelligent member of the Night's Watch who discovers critical knowledge to defeat the White Walkers.
+    \item Theon Greyjoy (455 lines): \cite{theon_wiki} A deeply insecure and arrogant youth who is captured and psychologically tortured, eventually redeeming himself as a selfless hero.
+\end{itemize}
+
+Our character selection resulted in a final subset of 1{,}460 lines of dialogue throughout the series, giving us a representative and extensive sample suitable for topic analysis.
+
+\section{Methods}
+
+\subsection{Data Preparation}
+
+Data preparation began with the normalization of character names since some characters are later referred to by their abbreviated names. We corrected these to ensure consistent formatting throughout the dataset. To generate a representative sample, we used the Polars library to extract a random selection of 125 lines per character. We implemented this randomization to reduce context and selection bias, helping to ensure that the open coding process covered a representative range of topics spanning the series.
+
+\subsection{Typology Development and Implementation}
+
+We employed two researchers to independently review the sampled lines and generate an initial typology of 3--8 topics through open coding. We then consolidated our typologies, merging similar topics to create a shared taxonomy. To validate the taxonomy, we re-annotated the samples blindly, refining category definitions based on topic coverage, tricky cases and overlap through the open coding process as a group. We then each used the final taxonomy to manually annotate the entire dataset. We consolidated our results by selecting the majority label and resolved split decisions through group consensus. Trivial topics were included in our analysis to see whether there was any underlying trend of a character's importance changing over the course of the series.
+
+\section{Results}
+
+\subsection{Topics Selected}
+
+After sufficient cross-coding, we produced the following list of topics and their working definitions.
+
+\paragraph{Orders/Demands} Lines about giving orders, making demands or pleading for something. These can be lines that are literally ordering, demanding or pleading, but they can also be lines that talk about the orders and demands of other people.
+
+\paragraph{Plans/Strategy/Advice} Lines that talk about anything relating to plans, strategy or advice. For plans, these can be lines that talk about making or executing a plan, but may also simply discuss a plan. Similarly, any lines that talk about strategy---whether creating or discussing it---fit in this category. Lines relating to advice also go here; this can be literally giving advice to someone or talking about advice given by someone else.
+
+\paragraph{War/Violence} Lines relating to war or any type of violence. For war, this can be anything relating to war with the exception of planning, since that goes in Plans/Strategy/Advice. Violence includes all types of violence: physical violence such as fighting, murdering, hurting, hunting, and verbal violence such as threats.
+
+\paragraph{Loyalty/Honour} Lines relating to loyalty or honour. This can include lines that talk about loyalty or demonstrate loyalty---to the crown, to one’s master, to one’s family, etc. This category also includes lines about honour, whether it is someone’s honour, the honour of a family or of a nation. As with loyalty, lines can literally talk about honour or demonstrate it.
+
+\paragraph{Politics} Lines talking about politics, political people, or anything to do with the feudal hierarchy. This includes lines about political power struggles, the royal family, drama relating to political figures, and also lines where the speaker is trying to do something politically, such as talking to a political figure to improve their political power or talking to royalty.
+
+\paragraph{Information/Lore} Lines where the speaker is giving information or talking about information or lore. This includes lines about the transfer of information, a specific piece of information, gathering information, and other topics relating to information. This category also includes sharing lore, talking about books, history, etc. 
+
+\paragraph{People} Lines talking about specific people. This includes lines where the speaker is talking about other people or themselves. Lines only fit in this category when the main topic is a person and that person is not a political figure. Lines where someone is mentioned but the main topic is something else (war, politics, orders, etc.) belong to those other categories.
+
+\paragraph{Trivial} Trivial lines or lines that are just banter. These include lines that do not talk about any substantive topic and lines that are conversational banter. We decided to keep these lines instead of cutting them from the dataset in order to analyze the distribution of trivial lines for each character.
+
+\subsection{Topic Distribution}
+
+\subsubsection{Global Topic Distribution per Season}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\columnwidth]{fig1.png}
+  \caption{Global topic distribution per season.}
+  \label{fig:global-topics}
+\end{figure}
+
+Figure \ref{fig:global-topics} shows that, across all eight seasons, Information/Lore is consistently the largest topic, followed by Plans/Strategy/Advice and People. The overall topic mix is relatively stable: each season displays a similar distribution pattern, with War/Violence and Politics consistently occupying a comparatively small portion. There is a noticeable mid-series increase in Politics and Plans/Strategy/Advice (around Seasons 4--6), and a visible decrease in Trivial dialogue in the final seasons.
+
+\subsubsection{Petyr Baelish Topic Distribution per Season}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\columnwidth]{fig2.png}
+  \caption{Topic distribution for Petyr Baelish by season.}
+  \label{fig:baelish}
+\end{figure}
+
+Figure \ref{fig:baelish} shows that Plans/Strategy/Advice is a dominant topic for Petyr Baelish in most seasons, forming the largest segment in Seasons 1, 2, 4, and 5. Information/Lore briefly becomes the largest topic in Season 3. From Seasons 4 to 7, the share of People increases steadily and becomes the largest segment in Seasons 5 and 6, and roughly equal to Plans/Strategy/Advice in Season 7. Politics remains a moderate but stable percentage across all seasons, while Trivial fluctuates but never dominates a season, and War/Violence is consistently very small or absent in every season.
+
+\subsubsection{Samwell Tarly Topic Distribution per Season}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\columnwidth]{fig3.png}
+   
+  \caption{Topic distribution for Samwell Tarly by season.}
+  \label{fig:samwell}
+\end{figure}
+
+Figure \ref{fig:samwell} shows that Information/Lore is the dominant topic for Samwell Tarly in most seasons. Trivial and People also occupy substantial portions of the distribution, making them his next most prominent topics. Politics and War/Violence are present but remain relatively minimal across the eight seasons.
+
+\subsubsection{Theon Greyjoy Topic Distribution per Season}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\columnwidth]{fig4.png}
+   
+  \caption{Topic distribution for Theon Greyjoy by season.}
+  \label{fig:theon}
+\end{figure}
+
+In \ref{fig:theon}, Theon Greyjoy displays a more varied topic distribution than the other two characters. While Information/Lore remains the single most significant topic overall. However, Loyalty/Honour, Orders/Demands, and War/Violence occupy noticeably larger proportions of compared to Baelish and Tarly. In the early seasons, Loyalty/Honour and Orders/Demands are particularly prominent. In the middle seasons, People becomes a larger segment, and War/Violence also increases. In the later seasons, the share of Loyalty/Honour and Plans/Strategy/Advice grows again, while Trivial dialogue becomes negligible or disappears.
+
+\subsection{TF--IDF Scores}
+
+To identify the most significant terms related to each category we calculated TF--IDF scores.
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\columnwidth]{fig5.png}
+  \caption{Top 10 TF--IDF terms for each topic.}
+  \label{fig:tfidf}
+\end{figure}
+
+For Information/Lore some of the high-scoring terms are ``wall'', ``ice'' and ``night'', referring to the Ice Wall and the Night’s Watch, which are mentioned in world-building conversations. The term ``dragonglass'', otherwise known as obsidian, plays a crucial role in defeating the White Walkers. Within the People category, the term with the highest weight in the entire dataset is ``reek'', the name Theon Greyjoy adopts when he is tortured and psychologically abused by Ramsay. The word with the second-highest overall TF--IDF is ``grace'', appearing in Politics as part of the phrase ``your grace'' to refer to members of the monarchy. For War/Violence, the words with the third and fourth highest TF--IDF scores are ``white'' and ``walker'', directly referencing the main antagonists in the series.
+
+\subsection{AI Topic Summary}
+
+\paragraph{Information/Lore} Both schemes treat this topic as discussing information, including explaining facts, history, books, lore, or the transfer and gathering of information. Expository lines that explain what is going on also fit naturally here. Our definition explicitly includes discussing the gathering of information (for example, spying or "we need more information"). In contrast, the AI scheme sometimes leans towards Plans/Strategy/Advice when information gathering is clearly part of a plan. There is also a grey area between pure lore or exposition and strategic information about war or politics: our wording is broader in framing this as "anything about information". At the same time, the AI description emphasizes world-building and exposition in practice.
+
+\paragraph{Loyalty/Honour} Both schemes treat this topic as lines that talk about or demonstrate loyalty and honour, including oaths, promises, fidelity, shame and similar ideas. Loyalty can be directed toward the crown, family, a group or other entities. However, when a line is mainly about war or fighting but also implies loyalty (e.g., "I'll fight for you"), our rule allows it to be coded as Loyalty/Honour if the emphasis is clearly on devotion rather than combat. In contrast, the AI scheme tends to treat such lines as War/Violence. As a result, our definition is slightly broader in behavioural terms, while the AI one focuses more on explicit verbal markers of loyalty or honour.
+
+\paragraph{Orders/Demands} Both schemes centre this topic on directive speech: giving orders, making demands, telling someone what to do or pleading. It is not restricted to formal military commands and also includes everyday directives. Our definition explicitly includes lines that discuss other people's orders or demands, even when the speaker is only reporting them (e.g., "He commanded me to go"). In contrast, the AI description does not highlight this, such that lines might drift into Information/Lore or Politics in that context. We also explicitly place pleading and begging here, while AI summaries sometimes associate pleas in violent contexts more with War/Violence or Loyalty/Honour, depending on what is foregrounded.
+
+\paragraph{Plans/Strategy/Advice} Both approaches define this topic in almost the same way: lines about making, executing or discussing plans, any kind of strategy, and giving or discussing advice. Planning for future actions clearly belongs here in both views. Our written rules additionally state that planning for war belongs in Plans/Strategy/Advice rather than War/Violence, which the AI also followed in principle. A key boundary issue arises with information-gathering as part of a strategy, such as spying or sending messages: the AI scheme sometimes frames these lines as Information/Lore, while our wording suggests that, when the focus is on using information strategically, they should more often be coded as Plans/Strategy/Advice.
+
+\paragraph{War/Violence} Both schemes describe this topic as lines about war or any type of violence, including physical harm, fighting, killing and verbal threats, with planning explicitly excluded and placed in Plans/Strategy/Advice. A primary boundary issue is that the AI scheme sometimes categorizes captivity or abuse under War/Violence, whereas, depending on the emphasis, our scheme might instead consider People (when the focus is on identity) or Loyalty/Honour (when the focus is on betrayal or shame). Our definition explicitly mentions hunting as a form of violence, while AI would only necessarily treat hunting as War/Violence when it is framed as violent; otherwise, it might lean towards Information/Lore if the line is primarily descriptive.
+
+\paragraph{Politics} Both views agree that this topic covers lines about politics, political people and the feudal hierarchy, including titles, power struggles, succession, institutions and attempts to gain or exercise political power. Both emphasize political roles, such as queen, lord, or heir, as central. We explicitly include any interaction with political figures when the purpose is to change or maintain political status, even if power is only implied rather than directly named. In contrast, the AI scheme focuses more on explicit discussion of power and may not always mark subtle status-seeking as Politics. When political and personal aspects are combined in a single line, our scheme categorizes it as Politics whenever the feudal role is central. In contrast, the AI description sometimes allows such mixed lines to be treated as People.
+
+\paragraph{People} Both schemes treat this topic as lines where the main subject is a person (including self-reference), focusing on their traits, feelings, or relationships, and both attempt to maintain this label only when the line is not primarily about war, politics, orders, or similar content. We emphasize that when someone is being discussed in their political role---for example, as a lord, queen or commander---the line should normally be placed in Politics rather than People unless it clearly focuses on them as a private individual. The AI's description of People as "talk focused on individuals" does not always sharply separate "person as human being" from "person as office-holder", so in borderline cases where both aspects are present, our rules push more lines into Politics (or sometimes Information/Lore when the line is explaining who they are) than the AI's broader wording might.
+
+\paragraph{Trivial} Both approaches define this topic as trivial lines or banter that do not discuss any substantive topic, capturing everyday, low-stakes chatter that does not clearly fit into another thematic category. The semantic definition is essentially the same. The main difference is methodological: we explicitly state that we retained trivial lines in the dataset to analyze how much each character uses them, whereas the AI description does not mention this motivation, although it does not alter how the category itself is understood. There is also a boundary issue when banter contains real thematic content, such as joking about war or politics: under our scheme, these lines are assigned to the substantive topic if that is clearly dominant. At the same time, the AI description implicitly assumes a similar practice without explicitly stating it.
+
+\section{Discussion}
+
+In this study, our aim was to investigate the distribution of topics that our chosen side characters talk about throughout the series. Petyr Baelish uses his dialogue very strategically, highlighting him as a cunning, manipulative character. As discussed above, he has a significantly higher percentage of lines talking about plans, strategy or giving advice than the other characters, as well as a higher distribution in Politics in the first three seasons, which then shifts to the People category later. Taken together, these categories paint a picture of Baelish as a manipulative character who starts off in politics and then shifts more toward ordinary people. This view is supported by the fact that, compared to the global distribution, he talks very little about War/Violence and also does not spend much dialogue on Orders/Demands. This supports the idea that he avoids directly ordering or threatening people and instead prefers to give advice and information, getting people to like him and act in his interests without explicit orders. We are thus left with the picture that Petyr Baelish is a cunning, manipulative character who uses dialogue very strategically.
+
+Samwell Tarly serves as a relatable character who is a source of information and lore. As discussed in the Results section, Sam’s dialogue is dominated by Information/Lore, People and Trivial. Although Information/Lore is also the largest category in the global distribution, Sam’s distribution is generally above average, marking him as a source of information and lore for other characters and for the audience. This is especially visible in the first three seasons, where his Information/Lore proportion is remarkably large. Samwell also has a large and consistent portion of his dialogue in the People category, further supporting the idea that he is a source of information about others, often explaining who people are or what they have done. The Trivial category also takes up much of his dialogue. We explicitly kept trivial lines in the dataset for this kind of insight: a much larger percentage of Sam’s dialogue is trivial compared to the other characters, indicating that he is in more everyday conversations. TF--IDF words for Trivial, such as ``Sam'' and ``Jr'', correspond to instances where Samwell talks to or about his son, Sam Jr., reinforcing the idea that he is a relatable, grounded character. Overall, Samwell Tarly appears as a relatable source of information and lore.
+
+Theon Greyjoy drastically changes throughout the series, and these changes are often triggered by information. In Season~1, his most common topic is Loyalty/Honour, reflecting his situation as someone under the rule of the Starks, forced to be loyal and talking mostly about loyalty. In Season~2, War/Violence becomes much more prominent for Theon, matching his involvement in war and violent events. In Season~3, the vast majority of his dialogue falls under Orders/Demands, with another large amount in Information/Lore. This fits his status as a prisoner being tortured for information he holds. In Season~4, he is a slave renamed Reek. He talks about himself, relays information he gathered, and is not important in conversation. This matches topics dominated by People, Information/Lore and Trivial. Season~5 is an in-between season for Theon: his topics are almost evenly spread among People, Orders/Demands, Loyalty/Honour and Information/Lore, reflecting his transition from being Reek (taking orders and talking about himself) to helping the Starks by giving information and pledging loyalty. In Season~6, People and Orders/Demands nearly disappear as he is no longer Reek but Theon again. He updates others on information he gathered while a slave and helps his sister climb the political ladder, which is reflected in his topics. In Season~7, his distribution is almost entirely Loyalty/Honour and People, reflecting his need to show loyalty to his family and to the Starks as he completes his transformation from Reek back to Theon. Finally, in Season~8, his dialogue becomes almost completely about War/Strategy/Advice and Information/Lore, with Trivial lines disappearing as he becomes a grim, duty-driven figure. This reflects his role of convincing the Starks, using information he gathered, to let him lead a small army and die on the battlefield. We therefore cannot easily classify Theon as a single archetype, since he changes so much. However, one constant stands out: he often possesses important information that changes his life. Across seasons, key pieces of information lead to his torture, his release from slavery, his sister’s rise in power, the Starks’ renewed trust and his final chance to fight in the war. Theon Greyjoy thus consistently carries information that drastically reshapes his fate.
+
+\section{Conclusion}
+
+The recurring theme for all three characters is that, despite being very different types of characters, they all serve as sources of information. Petyr Baelish uses information for his own benefit by manipulating others with it. Samwell Tarly is a general source of information and lore for both the audience and other characters. Many of Theon’s changes throughout the series occur because of information he possesses. It is striking that in seasons where one character speaks less about information, the others talk more about it, almost compensating for each other for the benefit of the audience. This leads us to ask: How much of the show’s information and lore is passed on to the audience specifically through these side characters?
+
+\section{Group Member Contributions}
+
+Nicholas Milin contributed to the data sampling for the open coding. Nicholas Milin and Laurier Lefebvre contributed to the open coding process. Nicholas Milin, Laurier Lefebvre and Yuzhe Wang annotated the dialogue and consolidated the responses. Nicholas Milin, Laurier Lefebvre and Yuzhe Wang assisted in the writing of the report. Nicholas Milin converted the document to LaTeX.
+
+% References must follow the text without a page break or single column switch
+\bibliography{references}
+
+\end{document}
